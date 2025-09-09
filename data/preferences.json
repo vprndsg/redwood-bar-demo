@@ -1,0 +1,5 @@
+{
+  "Barkeep": { "likes": ["tip"], "hates": ["theft"], "discount_threshold_trust": 3 },
+  "Guard":   { "likes": ["orderly"], "hates": ["chaos","theft"] },
+  "Stranger":{ "likes": ["tip_high","rumor_trade"], "hates": ["guards"] }
+}
