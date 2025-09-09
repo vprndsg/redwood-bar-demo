@@ -1,0 +1,31 @@
+{
+  "wallet_start": 20,
+  "stock": {
+    "ale": 10,
+    "gin": 6,
+    "tonic": 8,
+    "lime": 6,
+    "ice": 24,
+    "whiskey": 8,
+    "sugar": 10,
+    "bitters": 40,
+    "cola": 5
+  },
+  "recipes": {
+    "ale": {
+      "ingredients": { "ale": 1 },
+      "price": 2,
+      "effects": { "drunk": 1, "mood": 1 }
+    },
+    "gin_tonic": {
+      "ingredients": { "gin": 1, "tonic": 1, "ice": 1, "lime": 1 },
+      "price": 5,
+      "effects": { "drunk": 1, "mood": 1, "trust": 0 }
+    },
+    "old_fashioned": {
+      "ingredients": { "whiskey": 2, "sugar": 1, "bitters": 1, "ice": 1 },
+      "price": 8,
+      "effects": { "drunk": 1, "mood": 2 }
+    }
+  }
+}
