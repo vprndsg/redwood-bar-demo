@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Pixel RPG Demo • Redwood Bar • SVG</title>
+<style>
+  /* Mobile first. Fill screen. Center the pixel scene. */
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: #120a07; /* room darkness */
+    display: grid;
+    place-items: center;
+    touch-action: manipulation;
+    color: #e1c7a3;
+    font: 12px system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  /* Pixel wrapper scales by an integer for crisp edges. */
+  .pixel-wrap {
+    width: 256px;
+    height: 144px;
+    transform-origin: top left;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    position: relative;
+  }
+  svg {
+    width: 256px; height: 144px;
+    shape-rendering: crispEdges;
+    text-rendering: optimizeSpeed;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .hud {
+    position: fixed; left: 8px; bottom: 8px;
+    font: 12px system-ui, sans-serif;
+    color: #e1c7a3; opacity: .75;
+    user-select: none;
+  }
+  .panel {
+    position: fixed;
+    left: 8px; right: 8px; bottom: 40px;
+    display: grid;
+    gap: 8px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  #feed {
+    background: rgba(17, 10, 8, .75);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 32vh;
+    overflow: auto;
+    line-height: 1.35;
+  }
+  #feed p { margin: 0 0 6px 0; }
+  #feed .sys { opacity: .7; }
+  #choices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  #choices button {
+    padding: 12px 10px;
+    border: 0;
+    border-radius: 10px;
+    background: #1b1210;
+    color: #f2e4cf;
+    font: 14px system-ui, sans-serif;
+    letter-spacing: .2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  #choices button:active { transform: scale(.99); }
+  #choices button[disabled] { opacity: .5; }
+  .k { color: #f6b26b; }
+  .v { color: #93c47d; }
+</style>
+</head>
+<body>
+  <div id="stage" class="pixel-wrap">
+    <svg id="scene" viewBox="0 0 256 144" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.6" result="blur"/>
+          <feColorMatrix id="glowGain" in="blur" type="matrix"
+            values="
+              1 0 0 0 0
+              0 1 0 0 0
+              0 0 1 0 0
+              0 0 0 1.8 -0.6" result="bloom"/>
+          <feMerge>
+            <feMergeNode in="bloom"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <filter id="palette" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" result="grade"
+            values="
+              .393 .769 .189 0 0
+              .349 .686 .168 0 0
+              .272 .534 .131 0 0
+              0     0     0   1 0" />
+          <feComponentTransfer in="grade" result="steps">
+            <feFuncR type="discrete" tableValues="0.07 0.35 0.62 1"/>
+            <feFuncG type="discrete" tableValues="0.05 0.30 0.55 0.90"/>
+            <feFuncB type="discrete" tableValues="0.03 0.20 0.45 0.80"/>
+            <feFuncA type="identity"/>
+          </feComponentTransfer>
+        </filter>
+        <pattern id="grain" width="4" height="4" patternUnits="userSpaceOnUse">
+          <rect width="4" height="4" fill="#2a150d"/>
+          <rect y="1" width="4" height="1" fill="#31180f"/>
+          <rect y="3" width="4" height="1" fill="#351a10"/>
+        </pattern>
+      </defs>
+      <g id="sceneAll" filter="url(#palette)">
+        <rect x="0" y="0" width="256" height="144" fill="#1a0f0a"/>
+        <rect x="0" y="0" width="256" height="92" fill="#24130c"/>
+        <rect x="0" y="0" width="256" height="10" fill="#2f160d"/>
+        <rect x="10" y="0" width="6" height="92" fill="#3a1b10"/>
+        <rect x="240" y="0" width="6" height="92" fill="#3a1b10"/>
+        <g id="bgParallax">
+          <rect x="28" y="28" width="200" height="6" fill="#3e2013"/>
+          <rect x="28" y="44" width="200" height="6" fill="#3e2013"/>
+          <rect x="28" y="60" width="200" height="6" fill="#3e2013"/>
+          <g id="bottles">
+            <g fill="#6ea63a">
+              <rect x="36" y="20" width="3" height="8"/><rect x="36" y="18" width="3" height="2" />
+            </g>
+            <g fill="#a86e2d">
+              <rect x="46" y="18" width="3" height="10"/><rect x="46" y="16" width="3" height="2" />
+            </g>
+            <g fill="#3c78a8">
+              <rect x="56" y="19" width="3" height="9"/><rect x="56" y="17" width="3" height="2" />
+            </g>
+            <g fill="#7a3d1e">
+              <rect x="66" y="21" width="3" height="7"/><rect x="66" y="19" width="3" height="2" />
+            </g>
+            <g fill="#6ea63a">
+              <rect x="76" y="20" width="3" height="8"/><rect x="76" y="18" width="3" height="2" />
+            </g>
+            <g fill="#a86e2d">
+              <rect x="120" y="36" width="4" height="10"/><rect x="120" y="34" width="4" height="2" />
+            </g>
+            <g fill="#3c78a8">
+              <rect x="132" y="37" width="3" height="9"/><rect x="132" y="35" width="3" height="2" />
+            </g>
+            <g fill="#6ea63a">
+              <rect x="142" y="35" width="3" height="11"/><rect x="142" y="33" width="3" height="2" />
+            </g>
+            <g fill="#7a3d1e">
+              <rect x="152" y="38" width="3" height="8"/><rect x="152" y="36" width="3" height="2" />
+            </g>
+            <g fill="#a86e2d">
+              <rect x="162" y="36" width="4" height="10"/><rect x="162" y="34" width="4" height="2" />
+            </g>
+            <g fill="#3c78a8">
+              <rect x="196" y="52" width="3" height="9"/><rect x="196" y="50" width="3" height="2" />
+            </g>
+            <g fill="#6ea63a">
+              <rect x="206" y="51" width="3" height="10"/><rect x="206" y="49" width="3" height="2" />
+            </g>
+            <g fill="#a86e2d">
+              <rect x="216" y="50" width="4" height="11"/><rect x="216" y="48" width="4" height="2" />
+            </g>
+          </g>
+          <g id="neon" filter="url(#glow)">
+            <g fill="#ff934d" stroke="#ffd1a6" stroke-width="1">
+              <rect x="88" y="16" width="3" height="16"/>
+              <rect x="91" y="16" width="8" height="3"/>
+              <rect x="91" y="23" width="7" height="3"/>
+              <rect x="91" y="29" width="8" height="3"/>
+              <rect x="98" y="19" width="3" height="4"/>
+              <rect x="98" y="26" width="3" height="4"/>
+            </g>
+            <g fill="#ff934d" stroke="#ffd1a6" stroke-width="1">
+              <path d="M108 32 L112 16 L116 32 Z"/>
+              <rect x="110" y="24" width="4" height="2"/>
+            </g>
+            <g fill="#ff934d" stroke="#ffd1a6" stroke-width="1">
+              <rect x="124" y="16" width="3" height="16"/>
+              <rect x="127" y="16" width="8" height="3"/>
+              <rect x="127" y="23" width="6" height="3"/>
+              <rect x="134" y="19" width="3" height="4"/>
+              <path d="M130 26 L137 32 L133 32 L126 26 Z"/>
+            </g>
+          </g>
+        </g>
+        <rect x="0" y="92" width="256" height="52" fill="url(#grain)"/>
+        <rect x="0" y="84" width="256" height="10" fill="#5a2d18"/>
+        <path d="M0 84 H256 V86 H0 Z" fill="#6e391f"/>
+        <g id="candle" transform="translate(124,78)">
+          <rect x="-3" y="8" width="6" height="6" fill="#3a1b10"/>
+          <rect x="-2" y="6" width="4" height="4" fill="#bba98a"/>
+          <g filter="url(#glow)">
+            <path id="flame" d="M0 0 C 1 -2, 1 -5, 0 -7 C -1 -5, -1 -2, 0 0 Z" fill="#ffd37a"/>
+          </g>
+        </g>
+        <g id="player" transform="translate(60,94)">
+          <rect x="-6" y="0" width="12" height="12" fill="#2e2e45"/>
+          <rect x="-4" y="-6" width="8" height="6" fill="#d5b59a"/>
+          <rect x="-4" y="-6" width="8" height="2" fill="#3b2b1e"/>
+          <rect x="-10" y="10" width="8" height="6" fill="#402111"/>
+        </g>
+        <g id="bartender" transform="translate(186,90)">
+          <rect x="-7" y="-2" width="14" height="14" fill="#3b2b1e"/>
+          <rect x="-5" y="-10" width="10" height="8" fill="#d5b59a"/>
+          <rect x="-5" y="-10" width="10" height="3" fill="#2b1c12"/>
+          <rect x="-7" y="10" width="8" height="6" fill="#402111"/>
+          <rect x="6" y="4" width="5" height="4" fill="#a86e2d"/>
+          <rect x="11" y="5" width="2" height="2" fill="#a86e2d"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="panel">
+    <div id="feed"></div>
+    <div id="choices"></div>
+  </div>
+  <div class="hud" id="hud">tap scene to toggle grade</div>
+  <script src="https://unpkg.com/behavior3js@0.2.2/libs/behavior3-0.2.2.js"></script>
+  <script type="module" src="./main.js"></script>
+  <script>
+    const stage = document.getElementById('stage');
+    function fit() {
+      const W = 256, H = 144;
+      const s = Math.max(1, Math.floor(Math.min(window.innerWidth / W, window.innerHeight / H)));
+      stage.style.transform = 'scale(' + s + ')';
+    }
+    window.addEventListener('resize', fit, { passive: true });
+    fit();
+    const neon = document.getElementById('neon');
+    const glowGain = document.getElementById('glowGain');
+    const candle = document.getElementById('candle');
+    const flame = document.getElementById('flame');
+    const player = document.getElementById('player');
+    const tender = document.getElementById('bartender');
+    const bg = document.getElementById('bgParallax');
+    const bottles = document.getElementById('bottles').children;
+    const sceneAll = document.getElementById('sceneAll');
+    let gradeOn = true;
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#choices') || e.target.closest('#feed')) return;
+      gradeOn = !gradeOn;
+      sceneAll.setAttribute('filter', gradeOn ? 'url(#palette)' : '');
+    });
+    function px(n) { return Math.round(n); }
+    let seed = 1337;
+    function rand() {
+      seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5;
+      return ((seed < 0 ? ~seed + 1 : seed) % 1000) / 1000;
+    }
+    function tick(t) {
+      t *= 0.001;
+      const fast = Math.sin(t * 61.0) * 0.5 + 0.5;
+      const slow = Math.sin(t * 2.7) * 0.5 + 0.5;
+      const noise = rand() * 0.15;
+      const flicker = 0.70 + 0.25 * slow + 0.15 * fast + noise;
+      neon.style.opacity = Math.min(1, Math.max(0.6, flicker)).toFixed(3);
+      const gain = 1.4 + 1.2 * slow;
+      const bias = -0.5 + -0.2 * fast;
+      glowGain.setAttribute('values',
+        '1 0 0 0 0 ' +
+        '0 1 0 0 0 ' +
+        '0 0 1 0 0 ' +
+        '0 0 0 ' + gain.toFixed(2) + ' ' + bias.toFixed(2)
+      );
+      const flick = 1 + 0.05 * Math.sin(t * 18.0 + noise * 10);
+      const sway = px(Math.sin(t * 1.9) * 1);
+      candle.setAttribute('transform', 'translate(124,' + (78 + sway) + ') scale(1,1)');
+      flame.setAttribute('transform', 'scale(1,' + flick.toFixed(3) + ')');
+      const bobP = px(Math.sin(t * 2.2) * 1);
+      const bobT = px(Math.sin(t * 2.6 + 1.3) * 1);
+      player.setAttribute('transform', 'translate(' + 60 + ',' + (94 + bobP) + ')');
+      tender.setAttribute('transform', 'translate(' + 186 + ',' + (90 + bobT) + ')');
+      const par = px(Math.sin(t * 0.6) * 2);
+      bg.setAttribute('transform', 'translate(' + par + ',0)');
+      for (let i = 0; i < bottles.length; i++) {
+        if ((i + (seed & 3)) % 11 === 0) {
+          const g = bottles[i];
+          const child = g.firstElementChild;
+          const y = +child.getAttribute('y');
+          child.setAttribute('y', y + ((seed & 1) ? 0 : 0));
+          g.setAttribute('opacity', 0.85 + 0.15 * (rand() > 0.5 ? 1 : 0));
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>
