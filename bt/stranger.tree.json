@@ -1,0 +1,21 @@
+{
+  "title": "Stranger",
+  "root": "root",
+  "nodes": {
+    "root": { "id": "root", "name": "Priority", "children": ["on_rumor", "idle"] },
+
+    "on_rumor": { "id": "on_rumor", "name": "Sequence", "children": ["if_ask", "say_hint", "div_rumor"] },
+    "if_ask": { "id": "if_ask", "name": "IfEvent", "properties": { "name": "ask_rumor" } },
+    "say_hint": { "id": "say_hint", "name": "QueueSay", "properties": { "speaker": "Stranger", "text": "South alley. Third door. Watch the cat." } },
+    "div_rumor": { "id": "div_rumor", "name": "QueueDivert", "properties": { "path": "stranger.share_rumor" } },
+
+    "idle": { "id": "idle", "name": "Sequence", "children": ["say_idle", "div_idle"] },
+    "say_idle": { "id": "say_idle", "name": "QueueSay", "properties": { "speaker": "Stranger", "text": "Long night." } },
+    "div_idle": { "id": "div_idle", "name": "QueueDivert", "properties": { "path": "stranger.idle_line" } }
+  },
+  "custom_nodes": [
+    { "name": "IfEvent", "category": "condition" },
+    { "name": "QueueSay", "category": "action" },
+    { "name": "QueueDivert", "category": "action" }
+  ]
+}
