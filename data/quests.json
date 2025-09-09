@@ -1,0 +1,8 @@
+{
+  "stolen_wallet": {
+    "state": "open",
+    "needs": ["buy_drink"],
+    "gives": ["rumor_cellar"],
+    "log": []
+  }
+}
