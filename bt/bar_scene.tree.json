@@ -1,0 +1,59 @@
+{
+  "title": "Barkeep",
+  "root": "root",
+  "nodes": {
+    "root": { "id": "root", "name": "Priority", "children": ["theft", "alarm", "deny_heat", "tip_small", "order_oldf", "order_gnt", "order_ale", "greet", "serve_idle"] },
+
+    "theft": { "id": "theft", "name": "Sequence", "children": ["ev_theft", "say_alarm", "inc_heat_alarm", "consume_theft", "div_alarm"] },
+    "ev_theft": { "id": "ev_theft", "name": "IfEvent", "properties": { "name": "theft" } },
+    "say_alarm": { "id": "say_alarm", "name": "QueueSay", "properties": { "speaker": "Barkeep", "text": "Thief. Guards." } },
+    "inc_heat_alarm": { "id": "inc_heat_alarm", "name": "AddVar", "properties": { "key": "heat", "delta": 1 } },
+    "consume_theft": { "id": "consume_theft", "name": "ConsumeEvent", "properties": { "name": "theft" } },
+    "div_alarm": { "id": "div_alarm", "name": "QueueDivert", "properties": { "path": "scene.alarm" } },
+
+    "alarm": { "id": "alarm", "name": "Sequence", "children": ["ev_alarm", "say_ring", "div_alarm2"] },
+    "ev_alarm": { "id": "ev_alarm", "name": "IfEvent", "properties": { "name": "alarm" } },
+    "say_ring": { "id": "say_ring", "name": "QueueSay", "properties": { "speaker": "Barkeep", "text": "Easy now." } },
+    "div_alarm2": { "id": "div_alarm2", "name": "QueueDivert", "properties": { "path": "scene.alarm" } },
+
+    "deny_heat": { "id": "deny_heat", "name": "Sequence", "children": ["if_hot", "say_deny", "div_deny"] },
+    "if_hot": { "id": "if_hot", "name": "IfVarGte", "properties": { "key": "heat", "value": 2 } },
+    "say_deny": { "id": "say_deny", "name": "QueueSay", "properties": { "speaker": "Barkeep", "text": "Not tonight." } },
+    "div_deny": { "id": "div_deny", "name": "QueueDivert", "properties": { "path": "barkeep.deny" } },
+
+    "tip_small": { "id": "tip_small", "name": "Sequence", "children": ["ev_tip2", "take_tip2"] },
+    "ev_tip2": { "id": "ev_tip2", "name": "IfEvent", "properties": { "name": "tip_2" } },
+    "take_tip2": { "id": "take_tip2", "name": "TakeTip", "properties": { "amount": 2 } },
+
+    "order_oldf": { "id": "order_oldf", "name": "Sequence", "children": ["ev_oldf", "serve_oldf"] },
+    "ev_oldf": { "id": "ev_oldf", "name": "IfEvent", "properties": { "name": "order_old_fashioned" } },
+    "serve_oldf": { "id": "serve_oldf", "name": "ServeDrink", "properties": { "drink": "old_fashioned" } },
+
+    "order_gnt": { "id": "order_gnt", "name": "Sequence", "children": ["ev_gnt", "serve_gnt"] },
+    "ev_gnt": { "id": "ev_gnt", "name": "IfEvent", "properties": { "name": "order_gin_tonic" } },
+    "serve_gnt": { "id": "serve_gnt", "name": "ServeDrink", "properties": { "drink": "gin_tonic" } },
+
+    "order_ale": { "id": "order_ale", "name": "Sequence", "children": ["ev_ale", "serve_ale"] },
+    "ev_ale": { "id": "ev_ale", "name": "IfEvent", "properties": { "name": "order_ale" } },
+    "serve_ale": { "id": "serve_ale", "name": "ServeDrink", "properties": { "drink": "ale" } },
+
+    "greet": { "id": "greet", "name": "Sequence", "children": ["say_offer", "div_smalltalk"] },
+    "say_offer": { "id": "say_offer", "name": "QueueSay", "properties": { "speaker": "Barkeep", "text": "What will it be." } },
+    "div_smalltalk": { "id": "div_smalltalk", "name": "QueueDivert", "properties": { "path": "barkeep.smalltalk" } },
+
+    "serve_idle": { "id": "serve_idle", "name": "Sequence", "children": ["say_serve", "div_serve"] },
+    "say_serve": { "id": "say_serve", "name": "QueueSay", "properties": { "speaker": "Barkeep", "text": "Menu is on the board." } },
+    "div_serve": { "id": "div_serve", "name": "QueueDivert", "properties": { "path": "barkeep.serve" } }
+  },
+  "custom_nodes": [
+    { "name": "IfEvent", "category": "condition" },
+    { "name": "ConsumeEvent", "category": "action" },
+    { "name": "IfVarGte", "category": "condition" },
+    { "name": "IfVarLte", "category": "condition" },
+    { "name": "AddVar", "category": "action" },
+    { "name": "QueueDivert", "category": "action" },
+    { "name": "QueueSay", "category": "action" },
+    { "name": "ServeDrink", "category": "action" },
+    { "name": "TakeTip", "category": "action" }
+  ]
+}
