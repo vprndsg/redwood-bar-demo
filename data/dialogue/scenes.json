@@ -1,0 +1,33 @@
+{
+  "barkeep.smalltalk": [
+    { "speaker": "Barkeep", "text": "Storm took the bridge last week." },
+    { "speaker": "Barkeep", "text": "Band plays Friday." }
+  ],
+  "barkeep.serve": [
+    { "speaker": "Barkeep", "text": "What will it be." }
+  ],
+  "barkeep.deny": [
+    { "speaker": "Barkeep", "text": "Not tonight." }
+  ],
+  "barkeep.out_of_stock": [
+    { "speaker": "Barkeep", "text": "Shelf is bare for that one." }
+  ],
+  "scene.alarm": [
+    { "speaker": "Crowd", "text": "Heads turn. A whistle cuts the room." }
+  ],
+  "guard.pursuit": [
+    { "speaker": "Guard", "text": "You there." }
+  ],
+  "guard.frisk": [
+    { "speaker": "Guard", "text": "Palms open." }
+  ],
+  "guard.patrol_beat": [
+    { "speaker": "Narrator", "text": "A lantern passes the window." }
+  ],
+  "stranger.share_rumor": [
+    { "speaker": "Stranger", "text": "South alley. Third door. Watch the cat." }
+  ],
+  "stranger.idle_line": [
+    { "speaker": "Stranger", "text": "He watches the door." }
+  ]
+}
