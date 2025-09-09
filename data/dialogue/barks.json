@@ -1,0 +1,20 @@
+{
+  "serve_success": [
+    "Here you go.",
+    "Fresh pour.",
+    "On the house? Kidding."
+  ],
+  "out_of_stock": [
+    "Out of {item}. Try something else.",
+    "No {item} left. Supply runs late."
+  ],
+  "no_funds": [
+    "Settle first.",
+    "Tab is closed. Cash only."
+  ],
+  "thanks": [
+    "Thanks.",
+    "Much obliged.",
+    "Appreciated."
+  ]
+}
