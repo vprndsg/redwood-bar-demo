@@ -1,0 +1,27 @@
+{
+  "title": "Guard",
+  "root": "root",
+  "nodes": {
+    "root": { "id": "root", "name": "Priority", "children": ["on_alarm", "on_heat", "patrol"] },
+
+    "on_alarm": { "id": "on_alarm", "name": "Sequence", "children": ["if_alarm", "say_halt", "div_pursuit"] },
+    "if_alarm": { "id": "if_alarm", "name": "IfEvent", "properties": { "name": "alarm" } },
+    "say_halt": { "id": "say_halt", "name": "QueueSay", "properties": { "speaker": "Guard", "text": "Halt." } },
+    "div_pursuit": { "id": "div_pursuit", "name": "QueueDivert", "properties": { "path": "guard.pursuit" } },
+
+    "on_heat": { "id": "on_heat", "name": "Sequence", "children": ["if_heat_hi", "say_frisk", "div_frisk"] },
+    "if_heat_hi": { "id": "if_heat_hi", "name": "IfVarGte", "properties": { "key": "heat", "value": 3 } },
+    "say_frisk": { "id": "say_frisk", "name": "QueueSay", "properties": { "speaker": "Guard", "text": "Random check. Hands visible." } },
+    "div_frisk": { "id": "div_frisk", "name": "QueueDivert", "properties": { "path": "guard.frisk" } },
+
+    "patrol": { "id": "patrol", "name": "Sequence", "children": ["say_patrol", "div_patrol"] },
+    "say_patrol": { "id": "say_patrol", "name": "QueueSay", "properties": { "speaker": "Guard", "text": "Move along." } },
+    "div_patrol": { "id": "div_patrol", "name": "QueueDivert", "properties": { "path": "guard.patrol_beat" } }
+  },
+  "custom_nodes": [
+    { "name": "IfEvent", "category": "condition" },
+    { "name": "IfVarGte", "category": "condition" },
+    { "name": "QueueSay", "category": "action" },
+    { "name": "QueueDivert", "category": "action" }
+  ]
+}
